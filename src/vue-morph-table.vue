@@ -5,16 +5,16 @@
       <a href="javascript:void(0)" class="close-btn" @click="closeSidebar">×</a>
       <div class="content">
         <template v-for="(field, index) in allFields">
-          <div class="form-check" :key="index">
+          <div class="form-check-default box-checkbox" :key="index">
             <input
-              class="form-check-input"
+              class="form-checkbox-input"
               type="checkbox"
               :value="field.value"
               id="flexCheckDefault"
               :checked="field.check"
               @change="changeCheck(index)"
             />
-            <label class="form-check-label" for="flexCheckDefault">
+            <label class="form-checkbox-label-2" for="flexCheckDefault">
               {{ field.label }}
             </label>
           </div>
@@ -22,8 +22,8 @@
       </div>
     </div>
     <!-- Content -->
-    <div class="row justify-content-end">
-      <button class="btn btn-light mt-3 mb-3 mr-3" @click="show = true">
+    <div class="utils">
+      <button class="btn" @click="show = true">
         <svg
           height="10pt"
           viewBox="0 -53 384 384"
@@ -125,10 +125,7 @@ export default {
         "table",
         this.addTableClasses,
         {
-          [`table-${this.size}`]: this.size,
-          "table-dark": this.dark,
           "table-striped": this.striped,
-          "table-fixed": this.fixed,
           "table-hover": this.hover,
           "table-bordered": this.border,
           border: this.outlined,
@@ -192,36 +189,91 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div.sidebar {
-  position: fixed;
-  height: 100%;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  background-color: #fff;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-  a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #616161;
-    display: block;
-    transition: 0.3s;
-    &:hover {
-      color: #a1a1a1;
+div.wrapper {
+  font-family: Arial, Helvetica, sans-serif;
+  div.sidebar {
+    position: fixed;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #616161;
+      display: block;
+      transition: 0.3s;
+      &:hover {
+        color: #a1a1a1;
+      }
+    }
+    .close-btn {
+      position: absolute;
+      top: 0;
+      right: 10px;
+      font-size: 24px;
+      margin-left: 10px;
+    }
+    .content {
+      margin: 0 0 0 2rem;
     }
   }
-  .close-btn {
-    position: absolute;
-    top: 0;
-    right: 10px;
-    font-size: 24px;
-    margin-left: 10px;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  td,
+  th {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
   }
-  .content {
-    margin: 0 0 0 2rem;
+  &.table-bordered {
+    td,
+    th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
   }
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4caf50;
+    color: white;
+  }
+  &.table-striped {
+    tr {
+      &:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+    }
+  }
+  &.table-hover {
+    tr {
+      &:hover {
+        background-color: #ddd;
+      }
+    }
+  }
+}
+
+.btn {
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.utils {
+  float: right;
 }
 </style>
