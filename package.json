@@ -1,6 +1,6 @@
 {
   "name": "vue-morph-table",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/vue-morph-table.ssr.js",
   "browser": "dist/vue-morph-table.esm.js",
@@ -18,14 +18,7 @@
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
   },
-  "dependencies": {
-    "bootstrap": "^4.6.0",
-    "jquery": "^3.5.1",
-    "node-sass": "^5.0.0",
-    "popper.js": "^1.16.1",
-    "sass": "^1.32.8",
-    "sass-loader": "10.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
@@ -38,9 +31,12 @@
     "@vue/cli-service": "^4.5.10",
     "cross-env": "^7.0.3",
     "minimist": "^1.2.5",
+    "node-sass": "^5.0.0",
     "rollup": "^2.36.1",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-vue": "^5.1.9",
+    "sass": "^1.32.8",
+    "sass-loader": "10.1.1",
     "vue": "^2.6.12",
     "vue-template-compiler": "^2.6.12"
   },

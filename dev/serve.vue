@@ -41,6 +41,6 @@ export default Vue.extend({
 
 <template>
   <div id="app">
-    <vue-morph-table :fields.sync="fields" :items="items" />
+    <vue-morph-table :fields.sync="fields" :items="items" class="table-striped table-hovered"/>
   </div>
 </template>
