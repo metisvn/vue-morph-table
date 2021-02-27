@@ -245,12 +245,11 @@ div.wrapper {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #4caf50;
-    color: white;
+    background-color: #fff;
   }
   &.table-striped {
     tr {
-      &:nth-child(even) {
+      &:nth-child(odd) {
         background-color: #f2f2f2;
       }
     }
