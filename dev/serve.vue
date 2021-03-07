@@ -12,16 +12,16 @@ let fields = [
 
 let items = [
   { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 3, hello_2: 7, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 2, hello_2: 8, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 3, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 4, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 9, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 6, hello_2: 4, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 }
 ];
 
@@ -35,6 +35,14 @@ export default Vue.extend({
   },
   components: {
     VueMorphTable
+  },
+  methods: {
+    sortHandle(e) {
+      const { column, asc } = e
+      this.items = this.items.sort(function (item1, item2) {
+        return asc? item1[column] - item2[column] : item2[column] - item1[column]
+      })
+    }
   }
 });
 </script>
@@ -44,9 +52,11 @@ export default Vue.extend({
     <vue-morph-table
       :fields.sync="fields"
       :items="items"
-      :striped="true"
-      :hover="true"
-      :border="true"
+      striped
+      hover
+      border
+      sorter
+      @sort="sortHandle($event)"
     />
   </div>
 </template>

@@ -43,14 +43,25 @@
         </svg>
       </button>
     </div>
-    <div :class="`position-relative ${responsive ? 'table-responsive' : ''}`">
+    <div :class="`${responsive ? 'table-responsive' : ''}`">
       <table :class="tableClasses">
         <thead>
           <tr v-if="header">
             <template v-for="(columnName, index) in columnNames">
-              <th :key="index">
+              <th
+                :key="index"
+                class="position-relative"
+                @click="changeSort(rawColumnNames[index], index)"
+              >
                 <slot :name="`${rawColumnNames[index]}-header`">
-                  <div>{{ columnName }}</div>
+                  <span>{{ columnName }}</span>
+                </slot>
+                <slot
+                  v-if="isSortable(index)"
+                  name="sorting-icon"
+                  :state="getIconState(index)"
+                >
+                  <i :class="iconClasses(index)">&#8593;</i>
                 </slot>
               </th>
             </template>
@@ -99,14 +110,24 @@ export default {
       default: true,
     },
     sorter: [Object, Boolean],
+    sorterValue: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
   },
   data() {
     return {
       show: false,
       overlayStyle: {
         width: "0%",
-        opacity: 0
-      }
+        opacity: 0,
+      },
+      sorterState: {
+        column: null,
+        asc: true,
+      },
     };
   },
   computed: {
@@ -123,7 +144,7 @@ export default {
       this.allFields.forEach((f) => {
         if (f.check) ret.push(f);
       });
-      return ret;
+      return ret !== [] ? ret : null;
     },
     tableClasses() {
       return [
@@ -166,7 +187,43 @@ export default {
       return { width: value };
     },
   },
+  watch: {
+    sorterValue: {
+      immediate: true,
+      handler(val) {
+        const asc = val.asc !== false;
+        this.sorterState = Object.assign({}, { asc, column: val.column });
+      },
+    },
+  },
   methods: {
+    changeSort(column, index) {
+      if (!this.isSortable(index)) {
+        return;
+      }
+      const state = this.sorterState;
+      const columnRepeated = state.column === column;
+      state.column = column;
+      state.asc = !(columnRepeated && state.asc);
+      this.$emit("update:sorter-value", this.sorterState);
+      this.$emit("sort", this.sorterState);
+    },
+    getIconState(index) {
+      const direction = this.sorterState.asc ? "asc" : "desc";
+      return this.rawColumnNames[index] === this.sorterState.column
+        ? direction
+        : 0;
+    },
+    iconClasses(index) {
+      const state = this.getIconState(index);
+      return [
+        "arrow",
+        {
+          transparent: !state,
+          "rotate-icon": state === "desc",
+        },
+      ];
+    },
     pretifyName: function (name) {
       return name
         .replace(/[-_.]/g, " ")
@@ -175,6 +232,13 @@ export default {
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
+    },
+    isSortable(index) {
+      return (
+        this.sorter &&
+        (!this.fields || this.fields[index].sorter !== false) &&
+        this.itemsDataColumns.includes(this.rawColumnNames[index])
+      );
     },
     openSidebar() {
       this.show = true;
@@ -201,9 +265,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.rotate-icon {
+  transform: rotate(180deg);
+}
+
+i.arrow {
+  position: absolute;
+  top: -0.1rem;
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 27px;
+  vertical-align: middle;
+}
+
+.position-relative {
+  position: relative;
+}
+
 div.wrapper {
   font-family: Arial, Helvetica, sans-serif;
   div.overlay {
+    content: "8600";
     position: fixed;
     height: 100vh;
     z-index: 3;
