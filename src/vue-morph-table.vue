@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <div class="overlay" :style="overlayStyle" @click="closeSidebar"></div>
     <!-- Sidebar -->
     <div class="sidebar" :style="sidebarWidth">
       <a href="javascript:void(0)" class="close-btn" @click="closeSidebar">×</a>
@@ -23,7 +24,7 @@
     </div>
     <!-- Content -->
     <div class="utils">
-      <button class="btn" @click="show = true">
+      <button class="btn" @click="openSidebar">
         <svg
           height="10pt"
           viewBox="0 -53 384 384"
@@ -102,6 +103,10 @@ export default {
   data() {
     return {
       show: false,
+      overlayStyle: {
+        width: "0%",
+        opacity: 0
+      }
     };
   },
   computed: {
@@ -171,8 +176,15 @@ export default {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
     },
+    openSidebar() {
+      this.show = true;
+      this.overlayStyle.width = "100%";
+      this.overlayStyle.opacity = 0.8;
+    },
     closeSidebar() {
       this.show = false;
+      this.overlayStyle.width = "0%";
+      this.overlayStyle.opacity = 0;
     },
     changeCheck(index) {
       this.$emit("update:fields", [
@@ -191,10 +203,18 @@ export default {
 <style lang="scss" scoped>
 div.wrapper {
   font-family: Arial, Helvetica, sans-serif;
+  div.overlay {
+    position: fixed;
+    height: 100vh;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    background-color: #111;
+  }
   div.sidebar {
     position: fixed;
     height: 100%;
-    z-index: 1;
+    z-index: 3;
     top: 0;
     right: 0;
     background-color: #fff;
@@ -270,6 +290,7 @@ div.wrapper {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  background-color: #fff;
 }
 
 .utils {
