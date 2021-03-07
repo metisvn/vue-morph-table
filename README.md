@@ -1,8 +1,8 @@
-#vue-morph-table
+# vue-morph-table
 
 Table Component for Vue 2.
 
-##Install with NPM:
+## Install with NPM:
 ```
 $ npm i vue-morph-table
 ```
