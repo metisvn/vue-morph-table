@@ -24,12 +24,12 @@
               class="form-checkbox-input"
               type="checkbox"
               :value="field.value"
-              id="flexCheckDefault"
+              :id="`flexCheckDefault-${index}`"
               :checked="field.check"
               @change="changeCheck(index)"
               :disabled="lastFields === index"
             />
-            <label class="form-checkbox-label" for="flexCheckDefault">
+            <label class="form-checkbox-label" :for="`flexCheckDefault-${index}`">
               {{ field.label }}
             </label>
           </div>
