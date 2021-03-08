@@ -5,6 +5,21 @@
     <div class="sidebar" :style="sidebarWidth">
       <a href="javascript:void(0)" class="close-btn" @click="closeSidebar">×</a>
       <div class="content">
+        <div class="form-check-default box-checkbox">
+          <input
+            class="form-checkbox-input"
+            type="checkbox"
+            value="all"
+            id="flexCheckDefault"
+            :checked="checkAll"
+            @change="changeCheckAll"
+            :disabled="checkAll"
+          />
+          <label class="form-checkbox-label-2" for="flexCheckDefault"
+            >All</label
+          >
+          {{ checkAll }}
+        </div>
         <template v-for="(field, index) in allFields">
           <div class="form-check-default box-checkbox" :key="index">
             <input
@@ -14,6 +29,7 @@
               id="flexCheckDefault"
               :checked="field.check"
               @change="changeCheck(index)"
+              :disabled="lastFields === index"
             />
             <label class="form-checkbox-label-2" for="flexCheckDefault">
               {{ field.label }}
@@ -128,11 +144,22 @@ export default {
         column: null,
         asc: true,
       },
+      checkAll: false,
+      lastFields: -1
     };
   },
   computed: {
     allFields: {
       get: function () {
+        let showFieldsLength = 0;
+        this.$props.fields.forEach((f) => {
+          if (f.check) showFieldsLength++;
+        });
+        if (showFieldsLength === this.$props.fields.length) {
+          this.checkAll = true;
+        } else {
+          this.checkAll = false;
+        }
         return this.$props.fields;
       },
       set: function (newVal) {
@@ -141,9 +168,14 @@ export default {
     },
     filterFields() {
       let ret = [];
-      this.allFields.forEach((f) => {
-        if (f.check) ret.push(f);
+      let idx = -1;
+      this.allFields.forEach((f, index) => {
+        if (f.check) {
+          ret.push(f);
+          idx = index;
+        }
       });
+      this.lastFields = ret.length === 1 ? idx : -1;
       return ret !== [] ? ret : null;
     },
     tableClasses() {
@@ -194,6 +226,13 @@ export default {
         const asc = val.asc !== false;
         this.sorterState = Object.assign({}, { asc, column: val.column });
       },
+    },
+    checkAll(val) {
+      if (val === true) {
+        this.allFields.forEach((f) => {
+          f.check = true;
+        });
+      }
     },
   },
   methods: {
@@ -260,6 +299,9 @@ export default {
         ...this.fields.slice(index + 1),
       ]);
     },
+    changeCheckAll() {
+      this.checkAll = true;
+    }
   },
 };
 </script>

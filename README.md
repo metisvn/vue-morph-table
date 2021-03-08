@@ -6,7 +6,7 @@ Table Component for Vue 2.
 ```
 $ npm i vue-morph-table
 ```
-## ...or with Yarn:
+## ... or with Yarn:
 ```
 $ yarn add vue-morph-table
 ```
@@ -14,6 +14,7 @@ $ yarn add vue-morph-table
 ## Use:
 ```javascript
 // script TAG
+<script>
 import VueMorphTable from 'vue-morph-table'
 ...
 export default {
@@ -30,9 +31,11 @@ export default {
     VueMorphTable
   }
 }
+</script>
 ```
 and:
 ```html
+<!-- template TAG -->
 <template>
   <div>
     ...
@@ -40,4 +43,3 @@ and:
   </div>
 </template>
 ```
-
