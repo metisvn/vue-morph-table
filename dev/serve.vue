@@ -1,13 +1,13 @@
 <script>
-import Vue from 'vue';
-import VueMorphTable from '@/vue-morph-table.vue';
+import Vue from "vue";
+import VueMorphTable from "@/vue-morph-table.vue";
 
 let fields = [
   { key: "hello_1", label: "Hello 1", check: true },
   { key: "hello_2", label: "Hello 2", check: true },
   { key: "hello_3", label: "Hello 3", check: true },
   { key: "hello_4", label: "Hello 4", check: true },
-  { key: "hello_5", label: "Hello 5", check: true }
+  { key: "hello_5", label: "Hello 5", check: true },
 ];
 
 let items = [
@@ -22,28 +22,36 @@ let items = [
   { hello_1: 8, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 9, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 6, hello_2: 4, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 }
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+];
+
+let actions = [
+  { key: "edit", name: "Edit" },
+  { key: "delete", name: "Delete" },
 ];
 
 export default Vue.extend({
-  name: 'ServeDev',
+  name: "ServeDev",
   data() {
     return {
       fields,
-      items
-    }
+      items,
+      actions
+    };
   },
   components: {
-    VueMorphTable
+    VueMorphTable,
   },
   methods: {
     sortHandle(e) {
-      const { column, asc } = e
+      const { column, asc } = e;
       this.items = this.items.sort(function (item1, item2) {
-        return asc? item1[column] - item2[column] : item2[column] - item1[column]
-      })
-    }
-  }
+        return asc
+          ? item1[column] - item2[column]
+          : item2[column] - item1[column];
+      });
+    },
+  },
 });
 </script>
 
@@ -52,11 +60,19 @@ export default Vue.extend({
     <vue-morph-table
       :fields.sync="fields"
       :items="items"
+      :actions="actions"
       striped
       hover
       border
       sorter
       @sort="sortHandle($event)"
-    />
+    >
+      <template #edit>
+        <td width="1%">edit</td>
+      </template>
+      <template #delete>
+        <td width="1%">delete</td>
+      </template>
+    </vue-morph-table>
   </div>
 </template>

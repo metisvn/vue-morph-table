@@ -3,6 +3,7 @@ import Vue from 'vue'
 export declare class VueMorphTable extends Vue {
   items?: Array<any>
   fields?: Array<any>
+  action?: Array<any>
   addTableClasses?: string | Array<any> | object
   responsive?: boolean
   size?: string

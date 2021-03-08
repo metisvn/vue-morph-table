@@ -5,6 +5,7 @@
     <div class="sidebar" :style="sidebarWidth">
       <a href="javascript:void(0)" class="close-btn" @click="closeSidebar">×</a>
       <div class="content">
+        <!-- Check All Fields -->
         <div class="form-check-default box-checkbox">
           <input
             class="form-checkbox-input"
@@ -15,10 +16,7 @@
             @change="changeCheckAll"
             :disabled="checkAll"
           />
-          <label class="form-checkbox-label-2" for="flexCheckDefault"
-            >All</label
-          >
-          {{ checkAll }}
+          <label class="form-checkbox-label" for="flexCheckDefault"> All</label>
         </div>
         <template v-for="(field, index) in allFields">
           <div class="form-check-default box-checkbox" :key="index">
@@ -31,7 +29,7 @@
               @change="changeCheck(index)"
               :disabled="lastFields === index"
             />
-            <label class="form-checkbox-label-2" for="flexCheckDefault">
+            <label class="form-checkbox-label" for="flexCheckDefault">
               {{ field.label }}
             </label>
           </div>
@@ -81,6 +79,11 @@
                 </slot>
               </th>
             </template>
+            <template v-for="(action, index) in actions">
+              <th :key="`action_${index}`">
+                <slot :name="`${action['key']}-header`">_</slot>
+              </th>
+            </template>
           </tr>
         </thead>
         <tbody class="position-relative">
@@ -94,6 +97,15 @@
                   :index="itemIndex"
                 />
                 <td v-else :key="colNameIndex">{{ String(item[colName]) }}</td>
+              </template>
+              <template v-for="(actionInRow, indexActionInRow) in actions">
+                <slot
+                  v-if="$scopedSlots[actionInRow['key']]"
+                  :name="actionInRow['key']"
+                  :item="item"
+                  :index="itemIndex"
+                />
+                <td v-else :key="`action_${indexActionInRow}`"></td>
               </template>
             </tr>
           </template>
@@ -109,6 +121,10 @@ export default {
   props: {
     items: Array,
     fields: Array,
+    actions: {
+      type: Array,
+      default: () => [],
+    },
     addTableClasses: [String, Array, Object],
     responsive: {
       type: Boolean,
@@ -145,7 +161,7 @@ export default {
         asc: true,
       },
       checkAll: false,
-      lastFields: -1
+      lastFields: -1,
     };
   },
   computed: {
@@ -301,7 +317,7 @@ export default {
     },
     changeCheckAll() {
       this.checkAll = true;
-    }
+    },
   },
 };
 </script>
