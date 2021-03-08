@@ -4,9 +4,9 @@ import VueMorphTable from "@/vue-morph-table.vue";
 
 let fields = [
   { key: "hello_1", label: "Hello 1", check: true },
-  { key: "hello_2", label: "Hello 2", check: true },
+  { key: "hello_2", label: "Hello 2", check: false },
   { key: "hello_3", label: "Hello 3", check: true },
-  { key: "hello_4", label: "Hello 4", check: true },
+  { key: "hello_4", label: "Hello 4", check: false },
   { key: "hello_5", label: "Hello 5", check: true },
 ];
 
@@ -61,6 +61,7 @@ export default Vue.extend({
       :fields.sync="fields"
       :items="items"
       :actions="actions"
+      alias="table"
       striped
       hover
       border

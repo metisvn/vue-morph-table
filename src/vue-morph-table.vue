@@ -29,7 +29,10 @@
               @change="changeCheck(index)"
               :disabled="lastFields === index"
             />
-            <label class="form-checkbox-label" :for="`flexCheckDefault-${index}`">
+            <label
+              class="form-checkbox-label"
+              :for="`flexCheckDefault-${index}`"
+            >
               {{ field.label }}
             </label>
           </div>
@@ -119,6 +122,7 @@
 export default {
   name: "vue-morph-table",
   props: {
+    alias: String,
     items: Array,
     fields: Array,
     actions: {
@@ -169,6 +173,7 @@ export default {
       get: function () {
         let showFieldsLength = 0;
         this.$props.fields.forEach((f) => {
+          if (this.alias) localStorage.setItem(`${f.key}.${this.alias}.morph`, f.check);
           if (f.check) showFieldsLength++;
         });
         if (showFieldsLength === this.$props.fields.length) {
