@@ -1,4 +1,6 @@
-# vue-morph-table
+# Vue Morph Table
+
+[Vue Morph Table [Github]](https://github.com/simidoc/vue-morph-table/)
 
 Table Component for Vue
 
@@ -12,6 +14,27 @@ $ yarn add vue-morph-table
 ```
 
 ## Use:
+Sample Data:
+```javascript
+let fields = [
+  { key: "id", label: "Id", check: true },
+  { key: "name", label: "Name", check: true },
+  { key: "age", label: "Age", check: true },
+  { key: "class", label: "Class", check: true }
+];
+
+let items = [
+  { id: 1, name: "John", age: 21, class: "class 1"},
+  { id: 2, name: "Alex", age: 21, class: "class 1"},
+  { id: 3, name: "Rose", age: 21, class: "class 2"},
+  { id: 4, name: "Liz", age: 21, class: "class 2"},
+]
+
+let actions = [
+  { key: "edit", name: "Edit" },
+  { key: "delete", name: "Delete" },
+];
+```
 ```javascript
 // script TAG
 <script>
