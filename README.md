@@ -1,13 +1,13 @@
 # vue-morph-table
 
-Table Component for Vue 2.
+Table Component for Vue
 
 ## Install with NPM:
-```
+```shell
 $ npm i vue-morph-table
 ```
 ## ... or with Yarn:
-```
+```shell
 $ yarn add vue-morph-table
 ```
 
@@ -39,7 +39,107 @@ and:
 <template>
   <div>
     ...
-    <VueMorphTable :fields.sync="field" :items="items" ...others />
+    <VueMorphTable
+      :fields.sync="field"
+      :items="items"
+      ...others
+      alias="your_alias_here" />
   </div>
 </template>
 ```
+```alias``` specify all key belongs to it in localstorage.
+
+> key name is ```${column_key}.${alias}.morph```
+
+If you have some actions fields. It has ```actions```:
+```html
+<!-- template TAG -->
+<template>
+  <div>
+    ...
+    <VueMorphTable
+      :fields.sync="field"
+      :items="items"
+      :actions="actions"
+      ...others
+      alias="your_alias_here" />
+  </div>
+</template>
+```
+
+## Props
+```javascript
+// data
+alias [String]
+items [Array]
+fields [Array]
+actions [Array]
+addTableClasses [String, Array, Object]
+// css
+responsive [Boolean]
+striped [Boolean]
+hover [Boolean]
+border [Boolean]
+sorter [Object, Boolean]
+```
+
+## Slots
+If you want to customize table, we provide some slots
+| Name                  | Description                         |
+|-----------------------|-------------------------------------|
+|`${key}-header`        |Customize header fields              |
+|`sorting-icon`         |Customize icon sort in header        |
+|`${action_key}-header` |Customize action-header fields       |
+|`${key}`               |Customize column cell in row         |
+|`${action_key}`        |Customize action cell in row         |
+
+#### Use:
+```html
+<!-- template TAG -->
+<template>
+  <div>
+    ...
+    <VueMorphTable
+      :fields.sync="field"
+      :items="items"
+      :actions="actions"
+      ...others
+      alias="your_alias_here">
+      <template #slot_name_here [:item="{item_data_here}"]>
+        ...
+      </template>
+    </VueMorphTable>
+  </div>
+</template>
+```
+
+## Use Sort Feature:
+
+In template:
+```html
+<template>
+    <VueMorphTable
+      :fields.sync="field"
+      :items="items"
+      :actions="actions"
+      ...others
+      alias="your_alias_here"
+      @sort="sort_function_here" />
+</template>
+```
+In script:
+```javascript
+import VueMorphTable from 'vue-morph-table'
+...
+export default {
+  ...
+  // define a sort method
+  methods: {
+    sortMethod() {
+      //do somthing
+    }
+  }
+}
+```
+
+# All Done

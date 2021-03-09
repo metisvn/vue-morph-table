@@ -1,12 +1,12 @@
 {
   "name": "vue-morph-table",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "dist/vue-morph-table.ssr.js",
   "browser": "dist/vue-morph-table.esm.js",
   "module": "dist/vue-morph-table.esm.js",
   "unpkg": "dist/vue-morph-table.min.js",
-  "types": "./src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist/*",
     "src/**/*.vue"
