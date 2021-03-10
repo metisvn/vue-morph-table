@@ -400,7 +400,7 @@ div.wrapper {
   div.overlay {
     position: fixed;
     height: 100vh;
-    z-index: 100;
+    z-index: 3000;
     left: 0;
     top: 0;
     background-color: #111;
@@ -408,7 +408,7 @@ div.wrapper {
   div.sidebar {
     position: fixed;
     height: 100%;
-    z-index: 100;
+    z-index: 3000;
     top: 0;
     right: 0;
     background-color: #fff;
