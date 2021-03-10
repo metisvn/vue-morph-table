@@ -128,7 +128,7 @@ If you want to customize table, we provide some slots
       :actions="actions"
       ...others
       alias="your_alias_here">
-      <template #slot_name_here [:item="{item_data_here}"]>
+      <template #slot_name_here="{item_data_here}">
         ...
       </template>
     </VueMorphTable>
