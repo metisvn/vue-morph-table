@@ -106,6 +106,7 @@ striped [Boolean]
 hover [Boolean]
 border [Boolean]
 sorter [Object, Boolean]
+itemsLength [Number]
 ```
 
 ## Slots
@@ -184,6 +185,7 @@ In template:
       ...
       pagination
       numOfRows="arrayOptions"
+      :items-length="items.length"
       @changeCurrentPage="define_this_method"
       @changeNumOfRows="define_this_method" />
 </template>

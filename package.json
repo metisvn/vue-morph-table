@@ -1,6 +1,6 @@
 {
   "name": "vue-morph-table",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "main": "dist/vue-morph-table.ssr.js",
   "browser": "dist/vue-morph-table.esm.js",
