@@ -4,9 +4,9 @@ import VueMorphTable from "@/vue-morph-table.vue";
 
 let fields = [
   { key: "hello_1", label: "Hello 1", check: true },
-  { key: "hello_2", label: "Hello 2", check: false },
+  { key: "hello_2", label: "Hello 2", check: true },
   { key: "hello_3", label: "Hello 3", check: true },
-  { key: "hello_4", label: "Hello 4", check: false },
+  { key: "hello_4", label: "Hello 4", check: true },
   { key: "hello_5", label: "Hello 5", check: true },
 ];
 
@@ -15,14 +15,39 @@ let items = [
   { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 3, hello_2: 7, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 2, hello_2: 8, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 3, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 4, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 9, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 6, hello_2: 4, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
+  
 ];
 
 let actions = [
@@ -51,6 +76,12 @@ export default Vue.extend({
           : item2[column] - item1[column];
       });
     },
+    changeCurrentPage(e) {
+      console.log(e)
+    },
+    changeNumOfRows(e) {
+      console.log(e)
+    }
   },
 });
 </script>
@@ -66,7 +97,11 @@ export default Vue.extend({
       hover
       border
       sorter
+      :num-of-rows="[10, 20, 30, 50, 100]"
+      pagination
       @sort="sortHandle($event)"
+      @changeCurrentPage="changeCurrentPage($event)"
+      @changeNumOfRows="changeNumOfRows($event)"
     >
       <template #edit>
         <td width="1%">edit</td>

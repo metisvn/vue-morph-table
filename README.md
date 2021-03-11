@@ -1,8 +1,8 @@
 # Vue Morph Table
 
-[Vue Morph Table [Github]](https://github.com/simidoc/vue-morph-table/)
-
 Table Component for Vue
+
+[Vue Morph Table [Github]](https://github.com/simidoc/vue-morph-table/)
 
 ## Install with NPM:
 ```shell
@@ -98,6 +98,8 @@ items [Array]
 fields [Array]
 actions [Array]
 addTableClasses [String, Array, Object]
+pagination [Boolean]
+numOfRows [Array]
 // css
 responsive [Boolean]
 striped [Boolean]
@@ -160,6 +162,48 @@ export default {
   methods: {
     sortMethod() {
       //do somthing
+    }
+  }
+}
+```
+
+You must define ```sort``` method.
+It's useful for you to sort with REST API
+
+
+## Use Pagination
+
+If you want to use pagination feature you have to assign ```pagination``` and ```numOfRows``` props
+and define ```changeCurrentPage``` and ```changeNumOfRows``` methods.
+It's useful for you to paginate with REST API
+
+In template:
+```html
+<template>
+    <VueMorphTable
+      ...
+      pagination
+      numOfRows="arrayOptions"
+      @changeCurrentPage="define_this_method"
+      @changeNumOfRows="define_this_method" />
+</template>
+```
+In script:
+```javascript
+import VueMorphTable from 'vue-morph-table'
+...
+export default {
+  data() {
+    arrayOptions: [10, 20, 30, 50, 100]
+  },
+  ...
+  // define a sort method
+  methods: {
+    changeCurrentPage() {
+      //do something
+    },
+    changeNumOfRows() {
+      //do something
     }
   }
 }

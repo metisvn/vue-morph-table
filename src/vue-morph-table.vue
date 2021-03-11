@@ -41,6 +41,15 @@
     </div>
     <!-- Content -->
     <div class="utils">
+      <div class="separator"></div>
+      <div v-if="numOfRows" class="select-num-of-rows">
+        <label for="num-of-rows">Number of rows:</label>
+        <select name="num-of-rows" id="num-of-rows" @change="changeNumOfRows">
+          <option v-for="num in numOfRows" :key="num" :value="num">
+            {{ num }}
+          </option>
+        </select>
+      </div>
       <button class="btn" @click="openSidebar">
         <svg
           height="10pt"
@@ -159,6 +168,24 @@
           </template>
         </tbody>
       </table>
+      <div class="table-footer" v-if="pagination && totalPage !== 1">
+        <div class="separator"></div>
+        <div class="pagination pagination--position">
+          <a href="#first" @click="changePage(1)">&laquo;</a>
+          <a href="#previous" @click="changePage(currentPage - 1)">‹</a>
+          <a
+            href="javascript:void(0)"
+            :class="{ 'page-active': page === currentPage }"
+            v-for="page in range(currentPage)"
+            :key="page"
+            @click="changePage(page)"
+            >{{ page }}</a
+          >
+          <a href="#next" @click="changePage(currentPage + 1)">›</a>
+          <a href="#last" @click="changePage(totalPage)">&raquo;</a>
+        </div>
+        <div class="separator"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -181,6 +208,7 @@ export default {
     },
     size: String,
     dark: Boolean,
+    pagination: Boolean,
     striped: Boolean,
     fixed: Boolean,
     hover: Boolean,
@@ -197,6 +225,7 @@ export default {
         return {};
       },
     },
+    numOfRows: Array,
   },
   data() {
     return {
@@ -211,9 +240,14 @@ export default {
       },
       checkAll: false,
       lastFields: -1,
+      currentPage: 1,
+      noRows: 10,
     };
   },
   computed: {
+    totalPage() {
+      return Math.ceil(this.$props.items.length / this.noRows);
+    },
     allFields: {
       get: function () {
         let showFieldsLength = 0;
@@ -287,6 +321,11 @@ export default {
     },
   },
   watch: {
+    currentPage(val) {
+      if (val < 1) val = 1;
+      else if (val > this.totalPage) val = totalPage;
+      this.$emit("changeCurrentPage", val);
+    },
     sorterValue: {
       immediate: true,
       handler(val) {
@@ -303,6 +342,38 @@ export default {
     },
   },
   methods: {
+    range(currentPage) {
+      if (currentPage === 1 || currentPage === 2 || currentPage === 3) {
+        if (this.totalPage < 5) return this.totalPage;
+        return 5;
+      } else if (
+        currentPage === this.totalPage ||
+        currentPage === this.totalPage - 1 ||
+        currentPage === this.totalPage - 2
+      ) {
+        if (this.totalPage < 5) return this.totalPage;
+        return [
+          this.totalPage - 4,
+          this.totalPage - 3,
+          this.totalPage - 2,
+          this.totalPage - 1,
+          this.totalPage,
+        ];
+      } else {
+        return [
+          currentPage - 2,
+          currentPage - 1,
+          currentPage,
+          currentPage + 1,
+          currentPage + 2,
+        ];
+      }
+    },
+    changePage(page) {
+      if (page > this.totalPage) page = this.totalPage;
+      else if (page < 1) page = 1;
+      this.currentPage = page;
+    },
     changeSort(column, index) {
       if (!this.isSortable(index)) {
         return;
@@ -369,11 +440,42 @@ export default {
     changeCheckAll() {
       this.checkAll = true;
     },
+    changeNumOfRows(e) {
+      this.noRows = e.target.value;
+      this.$emit("changeNumOfRows", e.target.value);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.separator {
+  flex: 1;
+}
+
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .pagination {
+    &--position {
+      margin: 1.5rem auto 1.5rem 0;
+    }
+    a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      &.page-active {
+        background-color: #2B3856;
+        color: white;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
 .rotate-icon {
   transform: rotate(180deg);
   top: -0.3rem;
@@ -488,6 +590,26 @@ div.wrapper {
 }
 
 .utils {
-  float: right;
+  display: flex;
+  align-items: center;
+  .select-num-of-rows {
+    label {
+      margin-right: 10px;
+    }
+    select#num-of-rows {
+      padding: 0.5rem 1rem;
+      background-color: #eee;
+      border: 1px solid #ddd;
+      color: #333;
+      border-radius: 5px;
+      &:hover {
+        border-color: #aaa;
+      }
+      option {
+        padding: 0.5rem 1rem;
+        background-color: #fff;
+      }
+    }
+  }
 }
 </style>
