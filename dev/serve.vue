@@ -47,7 +47,7 @@ let items = [
   { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  
+
 ];
 
 let actions = [
@@ -99,6 +99,7 @@ export default Vue.extend({
       sorter
       :num-of-rows="[10, 20, 30, 50, 100]"
       pagination
+      :items-length="items.length"
       @sort="sortHandle($event)"
       @changeCurrentPage="changeCurrentPage($event)"
       @changeNumOfRows="changeNumOfRows($event)"

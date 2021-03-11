@@ -226,6 +226,7 @@ export default {
       },
     },
     numOfRows: Array,
+    ItemsLength: Number,
   },
   data() {
     return {
@@ -246,7 +247,7 @@ export default {
   },
   computed: {
     totalPage() {
-      return Math.ceil(this.$props.items.length / this.noRows);
+      return Math.ceil(this.$props.ItemsLength / this.noRows);
     },
     allFields: {
       get: function () {
