@@ -69,7 +69,7 @@
         </svg>
       </button>
     </div>
-    <div :class="`${responsive ? 'table-responsive' : ''}`">
+    <div :class="`position-relative ${responsive ? 'table-responsive' : ''}`">
       <table :class="tableClasses">
         <thead>
           <tr v-if="header">
@@ -138,14 +138,14 @@
             </template>
             <template v-for="(action, index) in actions">
               <th :key="`action_${index}`">
-                <slot :name="`${action['key']}-header`">_</slot>
+                <slot :name="`${action['key']}-header`"></slot>
               </th>
             </template>
           </tr>
         </thead>
-        <tbody class="position-relative">
+        <tbody>
           <template v-for="(item, itemIndex) in items">
-            <tr :key="itemIndex">
+            <tr v-if="!loading" :key="itemIndex" @click="clickRow(item)">
               <template v-for="(colName, colNameIndex) in rawColumnNames">
                 <slot
                   v-if="$scopedSlots[colName]"
@@ -162,13 +162,23 @@
                   :item="item"
                   :index="itemIndex"
                 />
-                <td v-else :key="`action_${indexActionInRow}`"></td>
+                <td v-else :key="`action_${indexActionInRow}`">
+                  {{ actionInRow["name"] }}
+                </td>
               </template>
             </tr>
           </template>
         </tbody>
+        <slot v-if="loading" name="loading">
+          <div class="loading">
+            <div class="loader"></div>
+          </div>
+        </slot>
       </table>
-      <div class="table-footer" v-if="pagination && totalPage !== 1">
+      <div
+        class="table-footer"
+        v-if="!loading && pagination && totalPage !== 1"
+      >
         <div class="separator"></div>
         <div class="pagination pagination--position">
           <a href="#first" @click="changePage(1)">&laquo;</a>
@@ -226,7 +236,8 @@ export default {
       },
     },
     numOfRows: Array,
-    ItemsLength: Number,
+    itemsLength: Number,
+    loading: Boolean,
   },
   data() {
     return {
@@ -445,6 +456,9 @@ export default {
       this.noRows = e.target.value;
       this.$emit("changeNumOfRows", e.target.value);
     },
+    clickRow(data) {
+      this.$emit("clickRow", data);
+    },
   },
 };
 </script>
@@ -469,7 +483,7 @@ export default {
       text-decoration: none;
       transition: background-color 0.3s;
       &.page-active {
-        background-color: #2B3856;
+        background-color: #2b3856;
         color: white;
         border-radius: 5px;
       }
@@ -527,6 +541,7 @@ div.wrapper {
       transition: 0.3s;
       &:hover {
         color: #a1a1a1;
+        cursor: pointer;
       }
     }
     .close-btn {
@@ -599,17 +614,57 @@ div.wrapper {
     }
     select#num-of-rows {
       padding: 0.5rem 1rem;
-      background-color: #eee;
+      background-color: #fff;
       border: 1px solid #ddd;
       color: #333;
       border-radius: 5px;
       &:hover {
-        border-color: #aaa;
+        border-color: #999;
+        background-color: #eee;
       }
       option {
         padding: 0.5rem 1rem;
         background-color: #fff;
       }
+    }
+  }
+}
+
+.loading {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30em;
+  width: 100%;
+  background-color: #eee;
+  .loader {
+    border-radius: 50%;
+    border: 8px solid #eee;
+    border-top: 8px solid #3498db;
+    border-bottom: 8px solid #3498db;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 }

@@ -20,34 +20,6 @@ let items = [
   { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
   { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-
 ];
 
 let actions = [
@@ -61,7 +33,8 @@ export default Vue.extend({
     return {
       fields,
       items,
-      actions
+      actions,
+      load: true
     };
   },
   components: {
@@ -81,6 +54,12 @@ export default Vue.extend({
     },
     changeNumOfRows(e) {
       console.log(e)
+    },
+    clickRow(e) {
+      console.log(e)
+    },
+    edit(item) {
+      console.log(item);
     }
   },
 });
@@ -97,15 +76,17 @@ export default Vue.extend({
       hover
       border
       sorter
+      :loading="load"
       :num-of-rows="[10, 20, 30, 50, 100]"
       pagination
       :items-length="items.length"
       @sort="sortHandle($event)"
       @changeCurrentPage="changeCurrentPage($event)"
       @changeNumOfRows="changeNumOfRows($event)"
+      @clickRow="clickRow($event)"
     >
-      <template #edit>
-        <td width="1%">edit</td>
+      <template #edit={item}>
+        <td width="1%" @click.stop="edit(item)">edit</td>
       </template>
       <template #delete>
         <td width="1%">delete</td>
