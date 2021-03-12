@@ -107,6 +107,7 @@ hover [Boolean]
 border [Boolean]
 sorter [Object, Boolean]
 itemsLength [Number]
+loading [Boolean]
 ```
 
 ## Slots
@@ -118,6 +119,7 @@ If you want to customize table, we provide some slots
 |`${action_key}-header` |Customize action-header fields       |
 |`${key}`               |Customize column cell in row         |
 |`${action_key}`        |Customize action cell in row         |
+|`loading`              |Customize loading                    |
 
 #### Use:
 ```html
