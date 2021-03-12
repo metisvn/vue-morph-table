@@ -70,7 +70,7 @@
       </button>
     </div>
     <div :class="`position-relative ${responsive ? 'table-responsive' : ''}`">
-      <table :class="tableClasses">
+      <table v-if="!loading" :class="tableClasses">
         <thead>
           <tr v-if="header">
             <template v-for="(columnName, index) in columnNames">
@@ -145,7 +145,7 @@
         </thead>
         <tbody>
           <template v-for="(item, itemIndex) in items">
-            <tr v-if="!loading" :key="itemIndex" @click="clickRow(item)">
+            <tr :key="itemIndex" @click="clickRow(item)">
               <template v-for="(colName, colNameIndex) in rawColumnNames">
                 <slot
                   v-if="$scopedSlots[colName]"
@@ -169,12 +169,12 @@
             </tr>
           </template>
         </tbody>
-        <slot v-if="loading" name="loading">
-          <div class="loading">
-            <div class="loader"></div>
-          </div>
-        </slot>
       </table>
+      <slot v-if="loading" name="loading">
+        <div class="loading">
+          <div class="loader"></div>
+        </div>
+      </slot>
       <div
         class="table-footer"
         v-if="!loading && pagination && totalPage !== 1"
@@ -258,7 +258,7 @@ export default {
   },
   computed: {
     totalPage() {
-      return Math.ceil(this.$props.ItemsLength / this.noRows);
+      return Math.ceil(this.$props.itemsLength / this.noRows);
     },
     allFields: {
       get: function () {
@@ -635,7 +635,7 @@ div.wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30em;
+  height: 25rem;
   width: 100%;
   background-color: #eee;
   .loader {
