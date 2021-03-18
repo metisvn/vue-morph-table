@@ -78,6 +78,16 @@
       <table v-if="!loading" :class="tableClasses">
         <thead>
           <tr v-if="header">
+            <th v-if="bulkAction" class="bulk-action">
+              <input
+                type="checkbox"
+                name="check-all-bulk-actions"
+                id="check-all-bulk-actions"
+                :checked="checkAllBulk"
+                @change="changeCheckAllBulk"
+                :disabled="checkAllBulk"
+              />
+            </th>
             <template v-for="(columnName, index) in columnNames">
               <th
                 :key="index"
@@ -151,6 +161,15 @@
         <tbody>
           <template v-for="(item, itemIndex) in items">
             <tr :key="itemIndex" @click="clickRow(item)">
+              <td v-if="bulkAction" class="bulk-action">
+                <input
+                  type="checkbox"
+                  :name="`check-${item.key}-bulk-action`"
+                  :id="`check-${item.key}-bulk-action`"
+                  :checked="item.check_bulk"
+                  @change="changeCheckBulk(itemIndex)"
+                />
+              </td>
               <template v-for="(colName, colNameIndex) in rawColumnNames">
                 <slot
                   v-if="$scopedSlots[colName]"
@@ -224,6 +243,7 @@ export default {
     hover: Boolean,
     border: Boolean,
     outlined: Boolean,
+    bulkAction: Boolean,
     header: {
       type: Boolean,
       default: true,
@@ -331,6 +351,22 @@ export default {
       const value = this.show ? "250px" : 0;
       return { width: value };
     },
+    checkAllBulk: {
+      get: function () {
+        let cnt = 0;
+        this.items.forEach(i => {
+          if (i.check_bulk === true) cnt++;
+        })
+        if (cnt === this.items.length) {
+          return true;
+        }
+      },
+      set: function (newVal) {
+        this.items.forEach(i => {
+          i.check_bulk = true;
+        })
+      }
+    }
   },
   watch: {
     currentPage(val) {
@@ -449,8 +485,21 @@ export default {
         ...this.fields.slice(index + 1),
       ]);
     },
+    changeCheckBulk(index) {
+      this.$emit("update:items", [
+        ...this.items.slice(0, index),
+        {
+          ...this.items[index],
+          check_bulk: !this.items[index].check_bulk,
+        },
+        ...this.items.slice(index + 1),
+      ]);
+    },
     changeCheckAll() {
       this.checkAll = true;
+    },
+    changeCheckAllBulk() {
+      this.checkAllBulk = true;
     },
     changeNumOfRows(e) {
       this.noRows = e.target.value;
@@ -675,5 +724,9 @@ div.wrapper {
 
 .table-responsive {
   overflow-x: auto;
+}
+
+.bulk-action {
+  width: 1rem;
 }
 </style>

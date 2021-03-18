@@ -11,15 +11,15 @@ let fields = [
 ];
 
 let items = [
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5 },
-  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5 },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 5, hello_2: 1, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 7, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 8, hello_2: 5, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
+  { hello_1: 1, hello_2: 2, hello_3: 3, hello_4: 4, hello_5: 5, check_bulk: false },
 ];
 
 let actions = [
@@ -34,7 +34,7 @@ export default Vue.extend({
       fields,
       items,
       actions,
-      load: true
+      load: false
     };
   },
   components: {
@@ -67,15 +67,17 @@ export default Vue.extend({
 
 <template>
   <div id="app">
+    {{ items }}
     <vue-morph-table
       :fields.sync="fields"
-      :items="items"
+      :items.sync="items"
       :actions="actions"
       alias="table"
       striped
       hover
       border
       sorter
+      bulkAction
       :loading="load"
       :num-of-rows="[10, 20, 30, 50, 100]"
       pagination
