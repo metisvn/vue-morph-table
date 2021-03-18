@@ -69,6 +69,11 @@
         </svg>
       </button>
     </div>
+    <slot v-if="loading" name="loading">
+      <div class="loading">
+        <div class="loader"></div>
+      </div>
+    </slot>
     <div :class="`position-relative ${responsive ? 'table-responsive' : ''}`">
       <table v-if="!loading" :class="tableClasses">
         <thead>
@@ -170,11 +175,6 @@
           </template>
         </tbody>
       </table>
-      <slot v-if="loading" name="loading">
-        <div class="loading">
-          <div class="loader"></div>
-        </div>
-      </slot>
       <div
         class="table-footer"
         v-if="!loading && pagination && totalPage !== 1"
@@ -501,7 +501,7 @@ div.arrow {
   position: relative;
   margin-left: 0.1rem;
   vertical-align: middle;
-  font-size: 27;
+  font-size: 27px;
   img.sort-icon {
     padding: 0;
     width: 1rem;
@@ -565,6 +565,9 @@ div.wrapper {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &.table-bordered {
     td,
@@ -609,6 +612,7 @@ div.wrapper {
   display: flex;
   align-items: center;
   .select-num-of-rows {
+    margin-right: 10px;
     label {
       margin-right: 10px;
     }
@@ -667,5 +671,9 @@ div.wrapper {
       transform: rotate(360deg);
     }
   }
+}
+
+.table-responsive {
+  overflow-x: auto;
 }
 </style>
