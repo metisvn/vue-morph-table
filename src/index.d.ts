@@ -16,4 +16,9 @@ export declare class VueMorphTable extends Vue {
   header?: boolean
   sorter?: boolean
   sorterValue?: { column: string, asc?: boolean }
+  bulkAction?: boolean
+  pagination?: boolean
+  numOfRows?: Array<any>
+  itemsLength?: number
+  loading?: boolean
 }

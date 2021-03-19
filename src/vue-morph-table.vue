@@ -74,7 +74,7 @@
         <div class="loader"></div>
       </div>
     </slot>
-    <div :class="`position-relative ${responsive ? 'table-responsive' : ''}`">
+    <div :class="`position-relative ${responsive ? 'tbl-responsive' : ''}`">
       <table v-if="!loading" :class="tableClasses">
         <thead>
           <tr v-if="header">
@@ -84,7 +84,7 @@
                 name="check-all-bulk-actions"
                 id="check-all-bulk-actions"
                 :checked="checkAllBulk"
-                @change="changeCheckAllBulk"
+                @change.stop="changeCheckAllBulk"
                 :disabled="checkAllBulk"
               />
             </th>
@@ -167,7 +167,7 @@
                   :name="`check-${item.key}-bulk-action`"
                   :id="`check-${item.key}-bulk-action`"
                   :checked="item.check_bulk"
-                  @change="changeCheckBulk(itemIndex)"
+                  @change.stop="changeCheckBulk(itemIndex)"
                 />
               </td>
               <template v-for="(colName, colNameIndex) in rawColumnNames">
@@ -354,19 +354,23 @@ export default {
     checkAllBulk: {
       get: function () {
         let cnt = 0;
-        this.items.forEach(i => {
+        this.items.forEach((i) => {
           if (i.check_bulk === true) cnt++;
-        })
+        });
         if (cnt === this.items.length) {
           return true;
         }
       },
       set: function (newVal) {
-        this.items.forEach(i => {
-          i.check_bulk = true;
-        })
-      }
-    }
+        if (newVal === true) {
+          let ret = [...this.items];
+          ret.map((i) => {
+            i.check_bulk = true;
+          });
+          this.$emit("update:items", ret);
+        }
+      },
+    },
   },
   watch: {
     currentPage(val) {
@@ -722,11 +726,11 @@ div.wrapper {
   }
 }
 
-.table-responsive {
-  overflow-x: auto;
-}
-
 .bulk-action {
   width: 1rem;
+}
+
+div.tbl-responsive {
+  overflow-x: auto;
 }
 </style>
